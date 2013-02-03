@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="app_name">TaskAssistant</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">TaskAssistant</string>
+    <string name="btnGetDateTime">Get date and time</string>
+    <string name="btnCreateHeader">Create task header</string>
+
+</resources>
