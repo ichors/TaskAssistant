@@ -17,11 +17,19 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/btnCreateHeader" />
+		
+	<CheckBox
+        android:id="@+id/chbxAppend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:gravity="center"
+        android:text="Append clipboard content after date" />
 
     <TextView
         android:id="@+id/tvLabel"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:gravity="center"
         android:text="Change date/time below if required" />
 

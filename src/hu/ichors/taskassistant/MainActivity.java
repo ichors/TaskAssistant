@@ -40,8 +40,10 @@ public class MainActivity extends Activity {
 	 */
 
 	private boolean ignoreTime = false;
+	private boolean append = true;
 	DatePicker datePicker;
 	CheckBox chbxIgnoreTime;
+	CheckBox chbxAppend;
 	TimePicker timePicker;
 	
 	@Override
@@ -88,6 +90,9 @@ public class MainActivity extends Activity {
 		        header += getDateStr();
 
 		        ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+				if (append) {
+					clipboard.setText(header + " " + clipboard.getText());
+				}
 		        clipboard.setText(header);
 
 		        Toast.makeText(MainActivity.this, header, Toast.LENGTH_SHORT ).show();
@@ -96,6 +101,20 @@ public class MainActivity extends Activity {
 			}
 		});
         
+		chbxAppend = (CheckBox) findViewById(R.id.chbxAppend);
+        chbxAppend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					// TODO Auto-generated method stub
+					if ( isChecked != append ) {
+						append = isChecked;
+					}
+				}
+			});
+
+        append = chbxAppend.isChecked();
+		
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         Calendar c = Calendar.getInstance();
         Time now = new Time();
