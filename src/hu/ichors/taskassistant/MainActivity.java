@@ -21,7 +21,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	
+
 	/// TODO: add another layout for landscape view
 
 	/**
@@ -42,10 +42,11 @@ public class MainActivity extends Activity {
 	private boolean ignoreTime = false;
 	private boolean append = true;
 	DatePicker datePicker;
-	CheckBox chbxIgnoreTime;
+    TextView tvClipboard;
+    CheckBox chbxIgnoreTime;
 	CheckBox chbxAppend;
 	TimePicker timePicker;
-	
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +59,15 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 		        ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-		        clipboard.setText(getDateTimeStr());
+		        if (append) {
+		        	clipboard.setText(getDateTimeStr() + " " + clipboard.getText());
+		        } else {
+		        	clipboard.setText(getDateTimeStr());
+		        }
 
 		        Toast.makeText(MainActivity.this, clipboard.getText(),
 		        		Toast.LENGTH_SHORT ).show();
-		        
+
 		        finish();
 			}
 		});
@@ -73,6 +78,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
+		        ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+
 		        String header = "";
 		        header += "Status: ";
 		        header += System.getProperty("line.separator");
@@ -81,6 +88,9 @@ public class MainActivity extends Activity {
 		        header += System.getProperty("line.separator");
 
 		        header += getDateTimeStr();
+		        if (append) {
+		        	header += (String)clipboard.getText();
+		        }
 		        header += System.getProperty("line.separator");
 
 		        header += "==================================";
@@ -89,18 +99,14 @@ public class MainActivity extends Activity {
 		        header += "Created: ";
 		        header += getDateStr();
 
-		        ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-				if (append) {
-					clipboard.setText(header + " " + clipboard.getText());
-				}
-		        clipboard.setText(header);
+				clipboard.setText(header);
 
 		        Toast.makeText(MainActivity.this, header, Toast.LENGTH_SHORT ).show();
-		        
+
 		        finish();
 			}
 		});
-        
+
 		chbxAppend = (CheckBox) findViewById(R.id.chbxAppend);
         chbxAppend.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -114,13 +120,13 @@ public class MainActivity extends Activity {
 			});
 
         append = chbxAppend.isChecked();
-		
+
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         Calendar c = Calendar.getInstance();
         Time now = new Time();
         now.setToNow();
         datePicker.init(now.year, now.month, now.monthDay, new OnDateChangedListener() {
-			
+
 			@Override
 			public void onDateChanged(DatePicker view, int year, int monthOfYear,
 					int dayOfMonth) {
@@ -130,13 +136,13 @@ public class MainActivity extends Activity {
 					chbxIgnoreTime.setChecked(true);
 					timePicker.setVisibility(View.GONE);
 				}
-				
+
 			}
 		});
-        
+
         chbxIgnoreTime = (CheckBox) findViewById(R.id.chbxIgnoreTime);
         chbxIgnoreTime.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
@@ -146,53 +152,70 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
-        
+
         ignoreTime = chbxIgnoreTime.isChecked();
         timePicker = (TimePicker) findViewById(R.id.timePicker);
         timePicker.setVisibility(ignoreTime ? View.GONE : View.VISIBLE);
         timePicker.setIs24HourView(true);
     }
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+        tvClipboard = (TextView) findViewById(R.id.tvClipboard);
+        ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+        tvClipboard.setText(clipboard.getText());
+
+        Calendar c = Calendar.getInstance();
+        Time now = new Time();
+        now.setToNow();
+        datePicker.updateDate(now.year, now.month, now.monthDay);
+
+        timePicker.setCurrentHour(now.hour);
+        timePicker.setCurrentMinute(now.minute);
+	}
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
-    
+
     private String getDateTimeStr() {
     	// get date and time from the controls
     	Calendar calendar = Calendar.getInstance();
     	calendar.set(
     			datePicker.getYear(),
     			datePicker.getMonth(),
-    			datePicker.getDayOfMonth(), 
+    			datePicker.getDayOfMonth(),
     	        ignoreTime ? 0 : timePicker.getCurrentHour(),
     	        ignoreTime ? 0 : timePicker.getCurrentMinute(),
     	        0);
     	Time dateTime = new Time();
     	dateTime.set(calendar.getTimeInMillis());
-    	
+
     	String dateTimeStr;
     	if (!ignoreTime) {
-    		dateTimeStr = dateTime.format("%a %y-%m-%d %H:%M ");	
+    		dateTimeStr = dateTime.format("%a %y-%m-%d %H:%M ");
     	} else {
     		dateTimeStr = dateTime.format("%a %y-%m-%d");
     	}
 
     	return dateTimeStr;
     }
-    
+
     private String getDateStr() {
     	// get date and time from the controls
     	Calendar calendar = Calendar.getInstance();
     	calendar.set(
     			datePicker.getYear(),
     			datePicker.getMonth(),
-    			datePicker.getDayOfMonth(), 
+    			datePicker.getDayOfMonth(),
     	        0, 0, 0);
     	Time date = new Time();
     	date.set(calendar.getTimeInMillis());
-    	
+
     	String dateStr = date.format("%a %y-%m-%d");
 
     	return dateStr;

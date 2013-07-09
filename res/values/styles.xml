@@ -2,4 +2,10 @@
 
     <style name="AppTheme" parent="android:Theme.Light" />
 
+    <style name="clipboardText" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">#555555</item>
+        <item name="android:shadowColor">#FF000000</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

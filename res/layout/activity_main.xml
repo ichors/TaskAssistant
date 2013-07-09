@@ -1,56 +1,77 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppTheme"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/btnGetDateTime"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/btnGetDateTime" />
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btnCreateHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/btnCreateHeader" />
-		
-	<CheckBox
-        android:id="@+id/chbxAppend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:gravity="center"
-        android:text="Append clipboard content after date" />
+        <Button
+            android:id="@+id/btnGetDateTime"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/btnGetDateTime" />
 
-    <TextView
-        android:id="@+id/tvLabel"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:text="Change date/time below if required" />
+        <Button
+            android:id="@+id/btnCreateHeader"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/btnCreateHeader" />
 
-    <DatePicker
-        android:id="@+id/datePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
 
-    <CheckBox
-        android:id="@+id/chbxIgnoreTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:gravity="center"
-        android:text="Ignore time" />
+            <CheckBox
+                android:id="@+id/chbxAppend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:gravity="center"
+                android:text="Insert " />
 
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center" />
+            <TextView
+                android:id="@+id/tvClipboard"
+                style="@style/clipboardText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="" />
+        </LinearLayout>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tvLabel"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="Change date/time below if required" />
+
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+
+        <CheckBox
+            android:id="@+id/chbxIgnoreTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:gravity="center"
+            android:text="Ignore time" />
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+    </LinearLayout>
+
+</ScrollView>
