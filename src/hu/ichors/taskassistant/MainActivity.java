@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 	 */
 
 	private boolean ignoreTime = false;
-	private boolean append = true;
+	private boolean append = false;
 	DatePicker datePicker;
     TextView tvClipboard;
     CheckBox chbxIgnoreTime;
@@ -121,6 +121,16 @@ public class MainActivity extends Activity {
 
         append = chbxAppend.isChecked();
 
+        tvClipboard = (TextView) findViewById(R.id.tvClipboard);
+        tvClipboard.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				append = !append;
+				chbxAppend.setChecked(append);
+			}
+		});
+
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         Calendar c = Calendar.getInstance();
         Time now = new Time();
@@ -172,6 +182,7 @@ public class MainActivity extends Activity {
         now.setToNow();
         datePicker.updateDate(now.year, now.month, now.monthDay);
 
+        timePicker.setCurrentHour(now.hour - 1);	// force redraw of hours (known TimePicker bug)
         timePicker.setCurrentHour(now.hour);
         timePicker.setCurrentMinute(now.minute);
 	}
