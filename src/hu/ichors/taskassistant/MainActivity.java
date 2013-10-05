@@ -2,6 +2,7 @@ package hu.ichors.taskassistant;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -46,6 +47,7 @@ public class MainActivity extends Activity {
     CheckBox chbxIgnoreTime;
 	CheckBox chbxAppend;
 	TimePicker timePicker;
+	TextView tvNameOfDay;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -146,10 +148,14 @@ public class MainActivity extends Activity {
 					chbxIgnoreTime.setChecked(true);
 					timePicker.setVisibility(View.GONE);
 				}
-
+				// update name of day
+				UpdateNameOfDay();
 			}
 		});
 
+        tvNameOfDay = (TextView)findViewById(R.id.tvNameOfDay);
+        UpdateNameOfDay();
+        
         chbxIgnoreTime = (CheckBox) findViewById(R.id.chbxIgnoreTime);
         chbxIgnoreTime.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -230,5 +236,39 @@ public class MainActivity extends Activity {
     	String dateStr = date.format("%a %y-%m-%d");
 
     	return dateStr;
+    }
+    
+    private void UpdateNameOfDay() {
+    	String nameOfDay = "";
+    	Calendar calendar = new GregorianCalendar(datePicker.getYear(), 
+    			datePicker.getMonth(), datePicker.getDayOfMonth());
+    	switch ( calendar.get(Calendar.DAY_OF_WEEK) ) {
+    	case Calendar.MONDAY:
+    		nameOfDay = "Monday";
+    		break;
+    	case Calendar.TUESDAY:
+    		nameOfDay = "Tuesday";
+    		break;
+    	case Calendar.WEDNESDAY:
+    		nameOfDay = "Wednesday";
+    		break;
+    	case Calendar.THURSDAY:
+    		nameOfDay = "Thursday";
+    		break;
+    	case Calendar.FRIDAY:
+    		nameOfDay = "Friday";
+    		break;
+    	case Calendar.SATURDAY:
+    		nameOfDay = "Saturday";
+    		break;
+    	case Calendar.SUNDAY:
+    		nameOfDay = "Sunday";
+    		break;
+    	default:
+    		nameOfDay = "" + calendar.get(Calendar.DAY_OF_WEEK);
+    		break;    		
+    	}
+    	
+    	tvNameOfDay.setText(nameOfDay);
     }
 }
